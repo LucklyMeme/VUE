@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <div id="app"></div> 
+   <script src="./vue.js"></script>
+   <script>
+
+       // 父向子传值
+       // 1 子声明接收参数
+       // 2 父通过属性的方式传递
+   var MyShow={
+       template:`
+       <div>
+            <h2>自信可以得到很大机会,今天好开心，有点失落</h2>
+            <h2>{{text}}</h2>
+        </div>
+       `,
+       // 是一个数组，子组件能接收的参数是多个
+       props:['title'],
+       data:function(){
+            return {
+              text:'werdtfyguhj'  
+            }
+        }
+     
+
+   }
+   var App={
+       components:{
+         'my-show':MyShow
+       },
+       template:`
+       <div style="background-color:deeppink;">
+          <my-show title="向您的时候，很哟动力"></my-show>
+          <my-show title="text"></my-show>
+        </div>`,
+        data:function(){
+            return {
+              text:'adaeqed'  
+            }
+        }
+   }
+
+   // 启动
+   new Vue({
+       el:'#app',
+       render:c=>c(App)
+   });
+   </script>
+   <div></div>
+  
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./vue.js"></script>
+    <script>
+     //注册全局过滤器
+     Vue.filter('reverse',function(v){
+         return '[我是全局过滤器:'+v+']';
+     });
+     var Cal ={
+         filters:{
+             reverse:function(value,argv1,argv2){
+                 //返回最终显示的结果
+                 return argv1+value.split('').reverse().join('')+argv2;
+             }
+         },
+         template:`
+         <div style="background-color:skyblue;">
+            欢饮进入:{{calTitle}}计算器:<br/>
+            <input type="text" v-model="n1"/>
+            <input type="text" v-model="n2"/>
+            <button @click="sum">{{calTitle}}计算</button>
+            {{result}}
+            <hr/>
+            功能二: 反转字符串
+            <input type="text" v-model="str"/>
+            {{str| reverse('@_@','^_^')}}
+         </div>
+         `,
+         props:['calTitle'],//父给予的东西，也是自己的东西
+         data:function(){
+             // 自己东西
+             return {
+                 n1:'',
+                 n2:'',
+                 result:'',
+                 str:''
+             }
+         },
+         methods:{
+             sum:function(){
+                 this.result=(this.calTitle+'计算结果是:')+((this.n1-0)+(this.n2-0));
+             }
+         }
+     };
+     //将以上公共组件定义成全局组件
+     Vue.component('cal',Cal);
+     //子 组件
+     var XinLang ={
+         template:`
+         <div style="background-color:hotpink;">
+            {{title|reverse}}
+            我是{{title}}
+            <cal :calTitle="title"></cal>
+        </div>
+         `,
+         data:function(){
+             return {
+                 title:'新浪'
+             }
+         }
+     };
+     //百度
+     var BaiDu = {
+         template:`
+         <div style="background-color:yellowgreen;">
+                {{title|reverse}}
+                我是{{title}}
+                <cal :calTitle="title"></cal>
+        </div>  
+         `,
+         data:function(){
+             return {
+                 title:'百度'
+             }
+         }
+     }
+   // 主体
+   var App ={
+       //声明使用子 组件、
+    components:{
+        'xin-lang':XinLang,
+        'bai-du':BaiDu
+    },
+    template:`
+    <div>
+    <xin-lang></xin-lang>   
+    <bai-du></bai-du>
+    </div>
+    `
+   }
+   new Vue({
+       el:'#app',
+       render:c=>c(App)
+   })
+    </script>
+    
+</body>
+</html>

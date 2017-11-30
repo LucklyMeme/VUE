@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./vue.js"></script>
+    <script>
+     //公共组件
+     var Cal={
+         template:`
+         <div style="background-color:skyblue;">
+            欢迎进入{{calTitle}}计算器:<br/>
+            <input type="text" v-model="n1"/>
+            <input type="text" v-model="n2"/>
+            <button @click="sum">{{calTitle}}计算</button>
+            {{result}}
+         </div>
+         `,
+         props:['calTitle'],//父给与的，也是你的东西
+         data:function(){
+             //自己的东西
+             return {
+                 n1:'',
+                 n2:'',
+                 result:'',
+             }
+         },
+         methods:{
+             sum:function(){
+                 this.result=(this.calTitle+'计算结果是:')+((this.n1-0)+(this.n2-0));
+             }
+         }
+     }
+     // 将以上公共组件定义成全局组件
+
+     //Vue.component('cal',Cal);
+     //子组件
+     var XinLang ={
+         // 使用全局组件
+         components:{
+             'cal' :Cal
+         },
+         template:`
+         <div style="background-color:hotpink;">
+            我是{{title}}
+            <cal :calTitle="title"></cal>
+        </div>
+         `,
+         data:function(){
+             return {
+                 title:'新浪'
+             }
+         }
+     }
+    //百度
+    var BaiDu={
+
+        components:{
+            'cal' :Cal
+        },
+        template:`
+        <div style="background-color:yellowgreen;">
+            我是{{title}}
+            <cal :calTitle="title"></cal>
+        </div>
+        `,
+        data:function(){
+            return {
+                title:'百度'
+            } 
+        }
+    }
+    // 主体
+    var App={
+        //声明使用自组件
+        components:{
+            'xin-lang':XinLang,
+            'bai-du':BaiDu,
+        },
+        template:`
+        <div>
+         <xin-lang></xin-lang>
+        <bai-du></bai-du>    
+        </div>
+        `
+    }
+    // 目的地
+    new Vue({
+        el:'#app',
+        //接收vue提供的DOM创建者 createELement(组件)生成DOM
+       render:c=>c(App)
+    })
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <div id="app"></div>
+    <script src="./vue.js"></script>
+    <script>
+        // 钩子就是事件
+        // beforeCreate  创建之前
+        // created  创建之后
+        // beforeMount  装载前（将数据与页面放入真实的页面中）
+        // mounted  装载之后（将数据与页面放入真实的页面中）
+        // beforeUpdate  更新数据前
+        // updated  更新数据后
+        // activated  激活组件
+        // deactivated  组件停用
+        // beforeDestroy  销毁之前
+        // destroyed  销毁之后
+        //圆了我们的梦想
+
+        //创建子组件
+        var Sub ={
+            template:`
+            <div>
+                圆了我们的梦想
+            </div>
+            `
+        };
+       var App = {
+           componets:{
+            'sub-vue':Sub
+           },
+       template:`
+       <div> 
+            
+        <sub-vue v-if="text"></sub-vue>
+         {{text}}
+         <button @click="text=!text">改变自己</button> 
+         <sub-vue></sub-vue>
+       </div>
+       `,
+       data:function(){
+           return {
+            //    text:'一定要加油，坚持，效率,生活要有一定的能力，多学习，少吹牛'
+               text:false
+           }
+       },
+       // 1 beforeCreate 数据没有初始化,没有数据
+       // 2 created   可以操作数据
+       // 3 beforeMount  没有装载数据到页面
+       // 4 mounted    已经转载数据到页面
+       // 5 created 和 mounted 各自的应用场景
+       //   created 适合操作 （数据）
+       //   mounted 适合操作 （DOM)
+       // 在DOM中  ref="xxx"
+       // 在js 中  this.$refs.xxx
+       // 创建组件
+    //    //创建前
+    //    beforeCreate:function(){
+    //        console.log(this.text);
+    //    },
+    //    //创建后
+    //    created:function(){
+    //        // ref="span"
+    //       console.log(this.$refs.span);
+    //    },
+    //    // 装载组件
+    //    beforeMount:function(){
+    //        console.log(this.text);
+    //        console.log('beforeMount')
+    //        console.log(this.$refs.span);
+    //    },
+    //    mounted:function(){
+    //        console.log(this.text);
+    //        console.log('mounted')
+    //        console.log(this.$refs.span);
+    //    },
+    //    //更新组件
+            // beforeUpdate:function(){//更改数据
+            //     this.text='更新前';//对数据进行二次更新
+            //     console.log('beforeUpdate')
+            // },
+            // // 更新中
+            // updated:function(){//更改数据
+            //     this.text='更新后';// 反复引起更新的钩子函数触发
+            //     console.log('updated')
+            // },
+      
+    //    //激活组件 
+       activated:function(){ //激活 
+           console.log('activated')
+       },
+       deactivated:function(){//停用
+           console.log('deactivated')
+       },
+    //    //销毁组件
+            // beforeDestroy:function(){
+            //     console.log('beforeDestroy')
+            // },
+            // destroyed:function(){
+            //     console.log('destroyed')
+            // },
+            // created:function(){
+            //     console.log('created');
+            // }
+
+
+        };
+
+        // 启动
+        new Vue({
+            //目的地
+            el: '#app',
+            // 渲染内容
+            render: c => c(App)
+        })
+
+    </script>
+    <keep-alive>
+            <sub-vue v-if="text">移出或插入组件</sub-vue>
+   </keep-alive> 
+</body>
+
+</html>
